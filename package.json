@@ -1,0 +1,13 @@
+{
+  "name": "aerozou",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -ws",
+    "test": "npm run test -ws",
+    "typecheck": "npm run typecheck -ws"
+  }
+}
