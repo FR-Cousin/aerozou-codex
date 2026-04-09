@@ -32,6 +32,16 @@
 - `POST /api/community/posts` pour publier une note/retour d'aérodrome.
 - `GET /api/community/posts` pour lire le fil d'actualité.
 
+### Masse et centrage
+- `POST /api/vfr/mass-balance` pour valider masse max et centrage (CG).
+
+### Coffre-fort administratif
+- `POST /api/vault/documents` pour stocker un document chiffré.
+- `POST /api/vault/documents/:id/decrypt` pour relire le document avec le secret.
+
+### Monétisation
+- `GET /api/monetization/options` pour récupérer la config d'essai/dons/achat/ads.
+
 ## Important sécurité
 
 Ce prototype n'est **pas** certifié avionique et ne remplace pas la documentation officielle, le briefing météo réglementaire ni les procédures des autorités aéronautiques.
