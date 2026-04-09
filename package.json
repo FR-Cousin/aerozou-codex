@@ -1,0 +1,14 @@
+{
+  "name": "aerozou",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -ws",
+    "test": "npm run test -ws",
+    "typecheck": "npm run typecheck -ws",
+    "web:serve": "python -m http.server 5173 --directory apps/web"
+  }
+}

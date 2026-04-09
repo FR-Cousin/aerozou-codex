@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b1220" />
+    <link rel="manifest" href="/public/manifest.webmanifest" />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <title>Aérozou PWA Prototype</title>
+  </head>
+  <body>
+    <header>
+      <h1>Aérozou</h1>
+      <p>Prototype PWA - Planification VFR</p>
+    </header>
+
+    <main>
+      <section class="card">
+        <h2>Santé API</h2>
+        <button id="health-btn">Tester /api/health</button>
+        <pre id="health-output"></pre>
+      </section>
+
+      <section class="card">
+        <h2>Calcul rapide E6B</h2>
+        <form id="e6b-form">
+          <label>TAS (kt)<input name="tas" type="number" value="110" required /></label>
+          <label>Route vraie (°)<input name="course" type="number" value="250" required /></label>
+          <label>Vent du (°)<input name="windFrom" type="number" value="300" required /></label>
+          <label>Vent (kt)<input name="windKt" type="number" value="20" required /></label>
+          <label>Variation (°)<input name="variation" type="number" value="2" required /></label>
+          <button type="submit">Calculer</button>
+        </form>
+        <pre id="e6b-output"></pre>
+      </section>
+
+      <section class="card">
+        <h2>Décoder METAR</h2>
+        <form id="metar-form">
+          <label>METAR brut
+            <input name="rawMetar" value="LFBO 081100Z 30012KT 9999 FEW020 17/09 Q1016" required />
+          </label>
+          <button type="submit">Décoder</button>
+        </form>
+        <pre id="metar-output"></pre>
+      </section>
+
+      <section class="card">
+        <h2>Route VFR (exemple)</h2>
+        <button id="route-btn">Calculer LFBO → LFDH → LFBD</button>
+        <pre id="route-output"></pre>
+      </section>
+    </main>
+
+    <script type="module" src="/src/app.js"></script>
+  </body>
+</html>
