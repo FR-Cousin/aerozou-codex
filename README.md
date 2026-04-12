@@ -1,125 +1,88 @@
-# Aérozou — Développement incrémental (Item 1 en cours)
+# Aérozou — Développement incrémental
 
-Ce dépôt repart de zéro, **item par item**, pour garantir une base testable et stable.
+## État actuel
 
-## ✅ Item 1 implémenté
+- ✅ **Item 1**: socle API + `GET /health`.
+- ✅ **Item 2**: outil **E6B** via `POST /tools/e6b`.
+- ⏭️ Prochain item proposé: calcul route VFR multi-segments.
 
-Objectif de l'item 1 : socle minimal API + endpoint santé.
-
-Contenu livré :
-- serveur Node.js minimal (`src/server.js`),
-- endpoint `GET /health` retournant HTTP `200` + JSON,
-- réponse `404` JSON sur route inconnue,
-- tests automatisés Node (`test/health.test.js`).
-
----
-
-## Manipulations & commandes à jour pour tester le code
-
-### Prérequis
-- Node.js 20+
+## Commandes pour tester (à jour)
 
 ### 1) Installer
 ```bash
 npm install
 ```
 
-### 2) Lancer en développement
+### 2) Lancer l'API
 ```bash
 npm run dev
 ```
 
-### 3) Vérifier manuellement l'API
+### 3) Vérifications rapides
 ```bash
+curl http://localhost:8080/
 curl http://localhost:8080/health
-curl http://localhost:8080/unknown
 ```
 
-### 4) Lancer les tests automatisés
+### 4) Tester l'item 2 (E6B)
+```bash
+curl -X POST http://localhost:8080/tools/e6b \
+  -H "Content-Type: application/json" \
+  -d '{
+    "trueAirspeedKt": 110,
+    "courseDeg": 250,
+    "windFromDeg": 300,
+    "windKt": 20,
+    "variationDeg": 2
+  }'
+```
+
+### 5) Lancer les tests
 ```bash
 npm test
 ```
 
-### Résultat attendu
-- `/health` renvoie `200` avec:
+## Réponse attendue E6B (exemple)
+
 ```json
-{"status":"ok","service":"aerozou-api","version":"item-1"}
+{
+  "headingTrueDeg": 258,
+  "headingMagneticDeg": 256,
+  "windCorrectionAngleDeg": 7.8,
+  "groundSpeedKt": 124.5
+}
 ```
-- route inconnue renvoie `404` avec indication d'usage.
 
----
+## Cahier des charges consolidé (rappel)
 
-## Cahier des charges complet (consolidé)
+### Vision
+Application aéronautique tout-en-un, VFR d'abord puis IFR, sur web PWA + mobile.
 
-### Vision produit
-Aérozou est une application aéronautique tout-en-un destinée aux pilotes, avec progression **VFR d'abord**, puis **IFR**.
+### Fonctions cibles
+- planification/navigation (caps, distances, ETA, carburant, masse/centrage, plan ICAO),
+- météo/NOTAM temps réel,
+- outils pilotes (E6B, check-lists, logbook, coffre-fort),
+- assistant IA en français,
+- fonctions communautaires,
+- UX accessible (contraste, large touch targets, dark/light mode),
+- monétisation flexible (gratuit + essai + don/achat + pubs discrètes).
 
-### Modules fonctionnels cibles
-1. **Planification de vol / navigation**
-   - sélection de points sur carte vectorielle,
-   - calcul caps, altitudes mini, distances, ETA, carburant, masse/centrage,
-   - génération plan de vol ICAO,
-   - alertes espaces aériens, obstacles, zones temporaires,
-   - extension IFR ultérieure (SID/STAR/approches).
+### Fournisseurs pressentis
+- OpenAIP/OurAirports (aérodromes/espaces),
+- NOAA/AVWX (météo),
+- Eurocontrol EAD Basic (NOTAM).
 
-2. **Météo & NOTAM temps réel**
-   - METAR/TAF, vents, turbulence, nuages, PIREP,
-   - NOTAM pertinents par route/aérodrome,
-   - fournisseurs cibles : OpenAIP/OurAirports, NOAA/AVWX, Eurocontrol EAD Basic.
+### Rôles
+Chef de projet, Codeur, Testeur, Designer, Agent de déploiement.
 
-3. **Outils pilotes**
-   - E6B numérique,
-   - check-lists personnalisables,
-   - carnet de vol numérique + statistiques + alertes,
-   - coffre-fort administratif sécurisé.
-
-4. **Assistant IA en français**
-   - questions météo/route/check-lists,
-   - explication des choix de route,
-   - lecture assistée des check-lists.
-
-5. **Communauté**
-   - notes/commentaires sur aérodromes,
-   - partage journaux de vol,
-   - fil d'actualité.
-
-6. **UX / accessibilité / plateformes**
-   - design épuré, contrasté, boutons larges,
-   - mode clair/sombre,
-   - responsive smartphone/tablette,
-   - disponibilité PWA + iOS/Android,
-   - architecture extensible vers systèmes embarqués.
-
-7. **Monétisation flexible**
-   - app gratuite au départ,
-   - essai,
-   - dons ou achat unique,
-   - publicité discrète optionnelle.
-
-### Architecture cible (améliorée)
-- front web : React/PWA,
-- mobile : React Native,
-- back : Node.js + API modulaire,
-- séparation stricte calculs métier / adapters fournisseurs / UI,
-- développement incrémental avec tests à chaque item.
-
-### Rôles projet
-- **Chef de projet** : priorisation, architecture, conformité aéronautique.
-- **Codeur** : implémentation back/front/mobile/intégrations.
-- **Testeur** : unitaires, intégration, fonctionnels, compatibilité.
-- **Designer** : maquettes, ergonomie en vol, composants réutilisables.
-- **Agent de déploiement** : revue qualité, versioning, CI/CD, livraison GitHub.
-
-### Stratégie de livraison incrémentale
-- Item 1 : socle API santé (ce livrable).
-- Item 2 : outil E6B isolé + tests.
-- Item 3 : route VFR (legs + totaux) + tests.
-- Item 4 : METAR decode.
-- Item 5 : logbook/check-lists.
-- Item 6 : NOTAM/adapters.
-- Item 7 : IA + communauté.
-- Item 8 : UI PWA complète.
-- Item 9 : mobile.
-- Item 10 : IFR.
-
-Cette approche limite les régressions et permet d'assembler progressivement un produit fiable.
+### Stratégie incrémentale
+1. Health API (fait)
+2. E6B (fait)
+3. Route VFR
+4. METAR
+5. Logbook/check-lists
+6. NOTAM/adapters
+7. Assistant IA + communauté
+8. PWA complète
+9. Mobile
+10. IFR
